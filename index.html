@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0051)file:///Users/andrey.abramov/Downloads/index_1.html -->
+<!-- saved from url=(0051)file:///Users/andrey.abramov/Downloads/index_2.html -->
 <html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +18,9 @@
     --text3: #999999;
     --blue-bg: #E6F1FB;
     --blue: #185FA5;
+    --blue-focus: rgba(24,95,165,0.12);
     --green: #3B6D11;
     --green-bg: #EAF3DE;
-    --green-border: #639922;
     --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
     --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
@@ -37,9 +37,9 @@
       --text3: #666666;
       --blue-bg: #042C53;
       --blue: #85B7EB;
+      --blue-focus: rgba(133,183,235,0.12);
       --green: #C0DD97;
       --green-bg: #173404;
-      --green-border: #3B6D11;
     }
   }
 
@@ -66,22 +66,105 @@
     gap: 1.25rem;
   }
 
-  .card {
+  /* URL card — primary */
+  .url-card {
     background: var(--surface);
     border: 0.5px solid var(--border);
     border-radius: 12px;
-    padding: 1.125rem 1.25rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
-  .card-title {
-    font-size: 11px;
+  .url-label {
+    font-size: 15px;
     font-weight: 500;
+    color: var(--text);
+  }
+
+  .url-input-wrap { position: relative; }
+
+  .url-input {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 13px 42px 13px 14px;
+    outline: none;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+  .url-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px var(--blue-focus);
+  }
+  .url-input::placeholder { color: var(--text3); }
+
+  .url-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
     color: var(--text3);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
+    display: none;
+    padding: 2px;
+    line-height: 0;
+  }
+  .url-clear:hover { color: var(--text2); }
+  .url-clear.visible { display: block; }
+
+  .slug-row { display: flex; align-items: center; gap: 8px; min-height: 26px; }
+
+  .slug-pill {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--blue);
+    background: var(--blue-bg);
+    padding: 4px 10px;
+    border-radius: 20px;
+    word-break: break-all;
+  }
+  .slug-hint { font-size: 13px; color: var(--text3); }
+
+  /* Advanced settings */
+  details {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 0.875rem 1.25rem;
+  }
+  details[open] { padding-bottom: 1.125rem; }
+
+  details summary {
+    font-size: 12px;
+    color: var(--text3);
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  details summary::before {
+    content: '▸';
+    font-size: 10px;
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  details[open] summary::before { transform: rotate(90deg); }
+  details summary::-webkit-details-marker { display: none; }
+
+  details .inner {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
   }
 
   label {
@@ -106,19 +189,33 @@
   input:focus, textarea:focus { border-color: var(--blue); }
   textarea { resize: vertical; min-height: 68px; line-height: 1.55; }
 
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 480px) { .row { grid-template-columns: 1fr; } }
-
-  .slug-badge {
+  code {
     font-family: var(--mono);
-    font-size: 13px;
-    color: var(--blue);
-    background: var(--blue-bg);
-    padding: 6px 10px;
-    border-radius: 8px;
-    word-break: break-all;
+    font-size: 12px;
+    background: var(--surface2);
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 0.5px solid var(--border);
   }
-  .slug-empty { font-size: 13px; color: var(--text3); padding: 3px 0; }
+
+  /* Commands */
+  .card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
 
   .groups { display: flex; flex-direction: column; gap: 10px; }
 
@@ -137,55 +234,22 @@
     gap: 8px;
   }
 
-  .group-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
+  .group-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .group-dot.primary { background: var(--blue); }
-  .group-dot.secondary { background: var(--text3); opacity: 0.6; }
+  .group-dot.secondary { background: var(--text3); opacity: 0.5; }
 
-  .group-label {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
+  .group-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
   .group-label.primary { color: var(--blue); }
   .group-label.secondary { color: var(--text3); }
 
   .cmd-item { border-top: 0.5px solid var(--border); }
   .cmd-item:first-child { border-top: none; }
-
   .cmd-row { display: flex; align-items: stretch; }
-
   .cmd-left { flex: 1; min-width: 0; }
 
-  .cmd-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    padding: 9px 12px 2px;
-  }
-
-  .cmd-slug {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--blue);
-    padding: 0 12px 6px;
-    word-break: break-all;
-  }
-
-  .cmd-body {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.55;
-    padding: 0 12px 10px;
-    word-break: break-all;
-    white-space: pre-wrap;
-  }
+  .cmd-name { font-size: 13px; font-weight: 500; color: var(--text); padding: 9px 12px 2px; }
+  .cmd-slug { font-family: var(--mono); font-size: 11px; color: var(--blue); padding: 0 12px 6px; word-break: break-all; }
+  .cmd-body { font-family: var(--mono); font-size: 12px; color: var(--text2); line-height: 1.55; padding: 0 12px 10px; word-break: break-all; white-space: pre-wrap; }
 
   .copy-btn {
     flex-shrink: 0;
@@ -208,42 +272,42 @@
   .copy-btn.ok { color: var(--green); background: var(--green-bg); }
 
   .empty { font-size: 13px; color: var(--text3); }
-
-  code {
-    font-family: var(--mono);
-    font-size: 12px;
-    background: var(--surface2);
-    padding: 1px 5px;
-    border-radius: 4px;
-    border: 0.5px solid var(--border);
-  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>Polymarket order generator</h1>
 
-  <div class="card">
-    <span class="card-title">Настройки</span>
-    <div>
-      <label>Шаблон — плейсхолдеры <code>{size}</code> и <code>{slug}</code></label>
-      <textarea id="template">uv run python send_order.py --type market --size {size} --chunk 500 --price 0.99 --slug {slug}</textarea>
+  <div class="url-card">
+    <div class="url-label">Ссылка на событие</div>
+    <div class="url-input-wrap">
+      <input class="url-input" type="text" id="url" placeholder="https://polymarket.com/event/…" autocomplete="off" spellcheck="false">
+      <button class="url-clear visible" id="url-clear" onclick="clearUrl()">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"></circle>
+          <line x1="5" y1="5" x2="11" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+          <line x1="11" y1="5" x2="5" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+        </svg>
+      </button>
     </div>
-    <div class="row">
+    <div class="slug-row">
+      <div id="slug-display" class="slug-pill">cs2-brute-yn-2026-04-19</div>
+    </div>
+  </div>
+
+  <details open="">
+    <summary>Дополнительные настройки</summary>
+    <div class="inner">
       <div>
+        <label>Шаблон — плейсхолдеры <code>{size}</code> и <code>{slug}</code></label>
+        <textarea id="template">uv run python send_order.py --type market --size {size} --chunk {size} --price 0.99 --slug {slug}</textarea>
+      </div>
+      <div style="max-width: 200px;">
         <label>Сумма трейда (size)</label>
         <input type="number" id="size" value="500" min="1">
       </div>
-      <div>
-        <label>Ссылка на событие Polymarket</label>
-        <input type="text" id="url" placeholder="https://polymarket.com/event/cs2-ntr-esc1-2026-04-19">
-      </div>
     </div>
-    <div>
-      <label>Slug</label>
-      <div id="slug-display" class="slug-badge">cs2-brute-yn-2026-04-19</div>
-    </div>
-  </div>
+  </details>
 
   <div class="card">
     <span class="card-title">Команды</span>
@@ -252,76 +316,62 @@
       <div class="group-dot primary"></div>
       <span class="group-label primary">Основные</span>
     </div>
-    <div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Матч</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19</div>
-        </div>
-        <button class="copy-btn" id="btn-0" onclick="copyCmd(0)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    <div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Матч</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19</div>
       </div>
-    </div><div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Game 1</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-game1</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game1</div>
-        </div>
-        <button class="copy-btn" id="btn-1" onclick="copyCmd(1)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+      <button class="copy-btn" id="btn-0" onclick="copyCmd(0)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div><div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Game 1</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-game1</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game1</div>
       </div>
-    </div><div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Game 2</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-game2</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game2</div>
-        </div>
-        <button class="copy-btn" id="btn-2" onclick="copyCmd(2)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+      <button class="copy-btn" id="btn-1" onclick="copyCmd(1)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div><div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Game 2</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-game2</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game2</div>
       </div>
-    </div><div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Total games 2.5</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-2pt5</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-2pt5</div>
-        </div>
-        <button class="copy-btn" id="btn-3" onclick="copyCmd(3)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+      <button class="copy-btn" id="btn-2" onclick="copyCmd(2)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div><div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Total games 2.5</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-2pt5</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-2pt5</div>
       </div>
-    </div>
+      <button class="copy-btn" id="btn-3" onclick="copyCmd(3)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div>
   </div><div class="group">
     <div class="group-header">
       <div class="group-dot secondary"></div>
       <span class="group-label secondary">Остальные</span>
     </div>
-    <div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Game 3</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-game3</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game3</div>
-        </div>
-        <button class="copy-btn" id="btn-4" onclick="copyCmd(4)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    <div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Game 3</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-game3</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-game3</div>
       </div>
-    </div><div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Total games 3.5</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-3pt5</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-3pt5</div>
-        </div>
-        <button class="copy-btn" id="btn-5" onclick="copyCmd(5)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+      <button class="copy-btn" id="btn-4" onclick="copyCmd(4)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div><div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Total games 3.5</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-3pt5</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-3pt5</div>
       </div>
-    </div><div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">Total games 4.5</div>
-          <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-4pt5</div>
-          <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-4pt5</div>
-        </div>
-        <button class="copy-btn" id="btn-6" onclick="copyCmd(6)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+      <button class="copy-btn" id="btn-5" onclick="copyCmd(5)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div><div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">Total games 4.5</div>
+        <div class="cmd-slug">cs2-brute-yn-2026-04-19-total-games-4pt5</div>
+        <div class="cmd-body">uv run python send_order.py --type market --size 500 --chunk 500 --price 0.99 --slug cs2-brute-yn-2026-04-19-total-games-4pt5</div>
       </div>
-    </div>
+      <button class="copy-btn" id="btn-6" onclick="copyCmd(6)"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"></rect><rect x="1" y="4" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="var(--surface)"></rect></svg><span>Копировать</span></button>
+    </div></div>
   </div></div>
   </div>
 </div>
@@ -367,18 +417,15 @@ function buildGroup(markets, slug, template, size, cls, title, startIdx) {
     const fullSlug = slug + m.suffix;
     const cmd = template.replace(/\{size\}/g, size).replace(/\{slug\}/g, fullSlug);
     allCmds[i] = cmd;
-    return `<div class="cmd-item">
-      <div class="cmd-row">
-        <div class="cmd-left">
-          <div class="cmd-name">${m.label}</div>
-          <div class="cmd-slug">${fullSlug}</div>
-          <div class="cmd-body">${esc(cmd)}</div>
-        </div>
-        <button class="copy-btn" id="btn-${i}" onclick="copyCmd(${i})">${copyIconSVG}<span>Копировать</span></button>
+    return `<div class="cmd-item"><div class="cmd-row">
+      <div class="cmd-left">
+        <div class="cmd-name">${m.label}</div>
+        <div class="cmd-slug">${fullSlug}</div>
+        <div class="cmd-body">${esc(cmd)}</div>
       </div>
-    </div>`;
+      <button class="copy-btn" id="btn-${i}" onclick="copyCmd(${i})">${copyIconSVG}<span>Копировать</span></button>
+    </div></div>`;
   }).join('');
-
   return `<div class="group">
     <div class="group-header">
       <div class="group-dot ${cls}"></div>
@@ -394,13 +441,20 @@ function render() {
   const url = document.getElementById('url').value;
   const slug = extractSlug(url);
 
+  document.getElementById('url-clear').classList.toggle('visible', url.length > 0);
+
   const sd = document.getElementById('slug-display');
-  if (slug) { sd.className = 'slug-badge'; sd.textContent = slug; }
-  else { sd.className = 'slug-empty'; sd.textContent = url.trim() ? 'не удалось извлечь slug' : 'вставьте ссылку выше'; }
+  if (slug) {
+    sd.className = 'slug-pill';
+    sd.textContent = slug;
+  } else {
+    sd.className = 'slug-hint';
+    sd.textContent = url.trim() ? 'не удалось извлечь slug' : 'вставьте ссылку выше';
+  }
 
   const groups = document.getElementById('groups');
   if (!slug || !size) {
-    groups.innerHTML = '<div class="empty">Введите ссылку и сумму выше</div>';
+    groups.innerHTML = '<div class="empty">Введите ссылку выше</div>';
     return;
   }
 
@@ -410,16 +464,10 @@ function render() {
     buildGroup(SECONDARY, slug, template, size, 'secondary', 'Остальные', PRIMARY.length);
 }
 
-function copyCmd(i) {
-  navigator.clipboard.writeText(allCmds[i]).then(() => {
-    const btn = document.getElementById('btn-' + i);
-    btn.innerHTML = checkIconSVG + '<span>Скопировано</span>';
-    btn.classList.add('ok');
-    setTimeout(() => {
-      btn.innerHTML = copyIconSVG + '<span>Копировать</span>';
-      btn.classList.remove('ok');
-    }, 1500);
-  });
+function clearUrl() {
+  document.getElementById('url').value = '';
+  render();
+  document.getElementById('url').focus();
 }
 
 ['template', 'size', 'url'].forEach(id =>
